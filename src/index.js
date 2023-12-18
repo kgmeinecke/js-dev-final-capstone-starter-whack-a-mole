@@ -3,13 +3,13 @@ const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
 // TODO: Add the missing query selectors:
 const score = document.querySelector('#score'); // Use querySelector() to get the score element
-const timerDisplay = document.querySelector('#score'); // use querySelector() to get the timer element.
+const timerDisplay = document.querySelector('#timer'); // use querySelector() to get the timer element.
 
 let time = 0;
 let timer;
 let lastHole = 0;
 let points = 0;
-let difficulty = "hard";
+let difficulty = "easy";
 
 /**
  * Generates a random integer within a range.
@@ -167,7 +167,8 @@ function toggleVisibility(hole){
 */
 function updateScore() {
   // TODO: Write your code here
-
+  points += 1;
+  score.textContent = points;
   return points;
 }
 
@@ -180,8 +181,8 @@ function updateScore() {
 */
 function clearScore() {
   // TODO: Write your code here
-  // points = 0;
-  // score.textContent = points;
+  points = 0;
+  score.textContent = points;
   return points;
 }
 
@@ -193,7 +194,11 @@ function clearScore() {
 function updateTimer() {
   // TODO: Write your code here.
   // hint: this code is provided to you in the instructions.
-  
+  if (time > 0) {
+    time -= 1;
+    // timer.textContent = time;
+    timerDisplay.textContent = time;
+  }
   return time;
 }
 
@@ -205,7 +210,8 @@ function updateTimer() {
 */
 function startTimer() {
   // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  
+  timer = setInterval(updateTimer, 1000);
   return timer;
 }
 
@@ -219,7 +225,7 @@ function startTimer() {
 */
 function whack(event) {
   // TODO: Write your code here.
-  // call updateScore()
+  points = updateScore();
   return points;
 }
 
@@ -230,7 +236,9 @@ function whack(event) {
 */
 function setEventListeners(){
   // TODO: Write your code here
-
+  moles.forEach((mole) => {
+    mole.addEventListener('click', whack)
+  })
   return moles;
 }
 
@@ -264,8 +272,12 @@ function stopGame(){
 *
 */
 function startGame(){
-  //setDuration(10);
-  //showUp();
+  clearScore()
+  setEventListeners();
+  setDuration(10);
+  startTimer();
+  //updateTimer();
+  showUp();
   return "game started";
 }
 
